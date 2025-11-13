@@ -1,7 +1,106 @@
 {
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true,
-    "elements-of-style@superpowers-marketplace": true
+  "env": {
+    "1ENABLE_THINKING": "true",
+    "1REASONING_EFFORT": "high",
+    "ANTHROPIC_AUTH_TOKEN": "quchaoyue.0",
+    "1ANTHROPIC_BASE_URL": "https://glm46.codedancer.bytedance.net",
+    "1ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.6",
+    "1ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.6",
+    "1ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.6",
+    "1CLAUDE_CODE_SUBAGENT_MODEL": "glm-4.6",
+    "ANTHROPIC_BASE_URL": "https://minimax2.codedancer.bytedance.net",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M2",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M2",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "0",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "200000",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1",
+    "MAX_MCP_OUTPUT_TOKENS": "50000",
+    "OTEL_LOGS_EXPORTER": "none",
+    "OTEL_LOGS_EXPORT_INTERVAL": "2147483647",
+    "OTEL_METRICS_EXPORTER": "none",
+    "OTEL_METRIC_EXPORT_INTERVAL": "2147483647",
+    "OTEL_SDK_DISABLED": "true",
+    "OTEL_TRACES_EXPORTER": "none"
   },
-  "alwaysThinkingEnabled": false
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(go list:*)",
+      "Bash(gofmt:*)",
+      "Bash(go mod:*)",
+      "Bash(go get:*)",
+      "mcp__ide__getDiagnostics",
+      "mcp__sequential-thinking",
+      "mcp__serena",
+      "mcp__strata",
+      "Skill(using-superpowers)",
+      "Skill(brainstorming)",
+      "Skill(writing_plans)",
+      "Skill(executing-plans)",
+      "Skill(superpowers:*)"
+    ],
+    "deny": [
+      "Bash(./build.sh)",
+      "Bash(./run.sh)",
+      "Bash(go build:*)",
+      "Bash(go vet:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -X POST http://localhost:3456/hook -H 'Content-Type: application/json' -d '{\"event\":\"PostToolUse\",\"tool\":\"Bash\"}' >> /tmp/claudecode-hooks.log 2>&1 &"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -X POST http://localhost:3456/hook -H 'Content-Type: application/json' -d '{\"event\":\"Stop\"}' >> /tmp/claudecode-hooks.log 2>&1 &"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -X POST http://localhost:3456/hook -H 'Content-Type: application/json' -d '{\"event\":\"SubagentStop\"}' >> /tmp/claudecode-hooks.log 2>&1 &"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "code-quality-hooks@fcakyon-claude-plugins": true,
+    "elements-of-style@superpowers-marketplace": true,
+    "prompt-improver@claude-code-marketplace": true,
+    "superpowers@superpowers-marketplace": true,
+    "code-documentation@claude-code-workflows": true
+  },
+  "alwaysThinkingEnabled": false,
+  "defaultMode": "acceptEdits"
 }

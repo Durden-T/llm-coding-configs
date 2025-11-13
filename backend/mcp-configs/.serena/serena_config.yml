@@ -20,7 +20,7 @@ web_dashboard: true
 # shows Serena's current session logs - as an alternative to the GUI log window which
 # is supported on all platforms.
 
-web_dashboard_open_on_launch: true
+web_dashboard_open_on_launch: false
 # whether to open a browser window with the web dashboard when Serena starts (provided that web_dashboard
 # is enabled). If set to False, you can still open the dashboard manually by navigating to
 # http://localhost:24282/dashboard/ in your web browser (24282 = 0x5EDA, SErena DAshboard).
@@ -44,7 +44,8 @@ ls_specific_settings: {}
 tool_timeout: 240
 # timeout, in seconds, after which tool executions are terminated
 
-excluded_tools: []
+excluded_tools: ["check_onboarding_performed", "delete_memory", "write_memory", "read_memory",
+  "list_memories", "onboarding", "replace_symbol_body", "insert_after_symbol", "insert_before_symbol"]
 # list of tools to be globally excluded
 
 included_optional_tools: []
